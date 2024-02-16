@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { secretKey } = require("../config");
 
 const registerUser = async (req, res) => {
   const { password } = req.body;
@@ -9,7 +10,7 @@ const registerUser = async (req, res) => {
   const savedUser = await user.save();
   const token = jwt.sign(
     { userId: savedUser._id },
-    "literally-Random-SecretKey"
+    secretKey
   );
   res
     .status(201)
@@ -44,7 +45,7 @@ const loginUser = async (req, res) => {
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ message: "Invalid username or password !" });
   }
-  const token = jwt.sign({ userId: user._id }, "literally-Random-SecretKey");
+  const token = jwt.sign({ userId: user._id }, secretKey );
   res.json({ username: username, token });
 };
 

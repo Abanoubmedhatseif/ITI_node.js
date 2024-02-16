@@ -9,6 +9,9 @@ app.use(express.json());
 // connecting to dataBase
 mongoose.connect("mongodb://127.0.0.1:27017/NewTodo-db");
 
+
+
+
 // routes
 app.use("/", userRouter);
 app.use("/", todoRouter);
